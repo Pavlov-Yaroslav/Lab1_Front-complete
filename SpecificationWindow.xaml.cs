@@ -225,8 +225,8 @@ namespace Lab1_Front
                 if (!currentPrsFile.IsOpen)
                     currentPrsFile.Open();
 
-                currentPrsFile.Input($"({input})");
-                MessageBox.Show("Связь добавлена успешно", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                string message = currentPrsFile.Input($"({input})");
+                MessageBox.Show(message, "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 LoadSpecifications();
             }
             catch (Exception ex)
@@ -247,14 +247,15 @@ namespace Lab1_Front
             {
                 string product = parentItem.Header.ToString().Split(' ')[0];
                 string detail = selectedItem.Header.ToString().Split(' ')[0];
+                string message;
 
                 try
                 {
                     if (!currentPrsFile.IsOpen)
                         currentPrsFile.Open();
 
-                    currentPrsFile.Delete($"({product} {detail})");
-                    MessageBox.Show($"Связь {product} -> {detail} помечена на удаление", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                    message = currentPrsFile.Delete($"({product} {detail})");
+                    MessageBox.Show(message, "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                     LoadSpecifications();
                 }
                 catch (Exception ex)
