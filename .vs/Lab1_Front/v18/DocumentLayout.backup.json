@@ -1,0 +1,176 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\\u042F\u0440\u043E\u0441\u043B\u0430\u0432\\source\\repos\\Lab1_Front-main\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{860F50F2-79E2-4AFD-80BE-1EA61ABCE881}|Lab1_Front.csproj|c:\\users\\\u044F\u0440\u043E\u0441\u043B\u0430\u0432\\source\\repos\\lab1_front-main\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{860F50F2-79E2-4AFD-80BE-1EA61ABCE881}|Lab1_Front.csproj|solutionrelative:mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{860F50F2-79E2-4AFD-80BE-1EA61ABCE881}|Lab1_Front.csproj|c:\\users\\\u044F\u0440\u043E\u0441\u043B\u0430\u0432\\source\\repos\\lab1_front-main\\specificationwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{860F50F2-79E2-4AFD-80BE-1EA61ABCE881}|Lab1_Front.csproj|solutionrelative:specificationwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{860F50F2-79E2-4AFD-80BE-1EA61ABCE881}|Lab1_Front.csproj|c:\\users\\\u044F\u0440\u043E\u0441\u043B\u0430\u0432\\source\\repos\\lab1_front-main\\componentswindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{860F50F2-79E2-4AFD-80BE-1EA61ABCE881}|Lab1_Front.csproj|solutionrelative:componentswindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{860F50F2-79E2-4AFD-80BE-1EA61ABCE881}|Lab1_Front.csproj|c:\\users\\\u044F\u0440\u043E\u0441\u043B\u0430\u0432\\source\\repos\\lab1_front-main\\componentswindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{860F50F2-79E2-4AFD-80BE-1EA61ABCE881}|Lab1_Front.csproj|solutionrelative:componentswindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{860F50F2-79E2-4AFD-80BE-1EA61ABCE881}|Lab1_Front.csproj|c:\\users\\\u044F\u0440\u043E\u0441\u043B\u0430\u0432\\source\\repos\\lab1_front-main\\specificationwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{860F50F2-79E2-4AFD-80BE-1EA61ABCE881}|Lab1_Front.csproj|solutionrelative:specificationwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{860F50F2-79E2-4AFD-80BE-1EA61ABCE881}|Lab1_Front.csproj|c:\\users\\\u044F\u0440\u043E\u0441\u043B\u0430\u0432\\source\\repos\\lab1_front-main\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{860F50F2-79E2-4AFD-80BE-1EA61ABCE881}|Lab1_Front.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 238,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\\u042F\u0440\u043E\u0441\u043B\u0430\u0432\\source\\repos\\Lab1_Front-main\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "MainWindow.xaml",
+              "ToolTip": "C:\\Users\\\u042F\u0440\u043E\u0441\u043B\u0430\u0432\\source\\repos\\Lab1_Front-main\\MainWindow.xaml",
+              "RelativeToolTip": "MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-03-17T12:06:51.068Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ComponentsWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\\u042F\u0440\u043E\u0441\u043B\u0430\u0432\\source\\repos\\Lab1_Front-main\\ComponentsWindow.xaml",
+              "RelativeDocumentMoniker": "ComponentsWindow.xaml",
+              "ToolTip": "C:\\Users\\\u042F\u0440\u043E\u0441\u043B\u0430\u0432\\source\\repos\\Lab1_Front-main\\ComponentsWindow.xaml",
+              "RelativeToolTip": "ComponentsWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-03-17T12:06:51.07Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SpecificationWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\\u042F\u0440\u043E\u0441\u043B\u0430\u0432\\source\\repos\\Lab1_Front-main\\SpecificationWindow.xaml",
+              "RelativeDocumentMoniker": "SpecificationWindow.xaml",
+              "ToolTip": "C:\\Users\\\u042F\u0440\u043E\u0441\u043B\u0430\u0432\\source\\repos\\Lab1_Front-main\\SpecificationWindow.xaml",
+              "RelativeToolTip": "SpecificationWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-03-17T12:37:06.086Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\\u042F\u0440\u043E\u0441\u043B\u0430\u0432\\source\\repos\\Lab1_Front-main\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\\u042F\u0440\u043E\u0441\u043B\u0430\u0432\\source\\repos\\Lab1_Front-main\\MainWindow.xaml.cs",
+              "RelativeToolTip": "MainWindow.xaml.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAmwCkAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-17T12:41:08.334Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ComponentsWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\\u042F\u0440\u043E\u0441\u043B\u0430\u0432\\source\\repos\\Lab1_Front-main\\ComponentsWindow.xaml.cs",
+              "RelativeDocumentMoniker": "ComponentsWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\\u042F\u0440\u043E\u0441\u043B\u0430\u0432\\source\\repos\\Lab1_Front-main\\ComponentsWindow.xaml.cs",
+              "RelativeToolTip": "ComponentsWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD8BAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-17T12:37:10.154Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SpecificationWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\\u042F\u0440\u043E\u0441\u043B\u0430\u0432\\source\\repos\\Lab1_Front-main\\SpecificationWindow.xaml.cs",
+              "RelativeDocumentMoniker": "SpecificationWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\\u042F\u0440\u043E\u0441\u043B\u0430\u0432\\source\\repos\\Lab1_Front-main\\SpecificationWindow.xaml.cs",
+              "RelativeToolTip": "SpecificationWindow.xaml.cs",
+              "ViewState": "AgIAACsBAAAAAAAAAAAmwFYBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-17T12:41:46.259Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e5c86464-96be-4d7c-9a8b-abcb3bbf5f92}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{73068c07-fba1-453f-99ae-6edf972119b2}"
+            }
+          ]
+        },
+        {
+          "DockedHeight": 106,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{ca8cc5c7-0231-406a-95cd-aa5ed6ac0190}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{588470cc-84f8-4a57-9ac4-86bca0625ff4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3822e751-eb69-4b0e-b301-595a9e4c74d5}"
+            }
+          ]
+        },
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
