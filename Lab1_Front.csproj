@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <Reference Include="PRDLib">
-      <HintPath>..\..\..\OneDrive\Desktop\PRDLib.dll</HintPath>
+      <HintPath>..\Lib\obj\Debug\net8.0\PRDLib.dll</HintPath>
     </Reference>
   </ItemGroup>
 

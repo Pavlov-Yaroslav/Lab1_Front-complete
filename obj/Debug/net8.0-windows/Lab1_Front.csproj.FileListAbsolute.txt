@@ -93,3 +93,31 @@ C:\Users\Ярослав\source\repos\Lab1_Front-main\obj\Debug\net8.0-windows\re
 C:\Users\Ярослав\source\repos\Lab1_Front-main\bin\Debug\net8.0-windows\PRDLib.dll
 C:\Users\Ярослав\source\repos\Lab1_Front-main\obj\Debug\net8.0-windows\Lab1_Front.csproj.AssemblyReference.cache
 C:\Users\Ярослав\source\repos\Lab1_Front-main\obj\Debug\net8.0-windows\Lab1_Front.csproj.Up2Date
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\obj\Debug\net8.0-windows\ComponentsWindow.baml
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\obj\Debug\net8.0-windows\MainWindow.baml
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\obj\Debug\net8.0-windows\SpecificationWindow.baml
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\obj\Debug\net8.0-windows\ComponentsWindow.g.cs
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\obj\Debug\net8.0-windows\MainWindow.g.cs
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\obj\Debug\net8.0-windows\SpecificationWindow.g.cs
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\obj\Debug\net8.0-windows\App.g.cs
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\obj\Debug\net8.0-windows\Lab1_Front_MarkupCompile.cache
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\obj\Debug\net8.0-windows\Lab1_Front.g.resources
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\obj\Debug\net8.0-windows\Lab1_Front.GeneratedMSBuildEditorConfig.editorconfig
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\obj\Debug\net8.0-windows\Lab1_Front.AssemblyInfoInputs.cache
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\obj\Debug\net8.0-windows\Lab1_Front.AssemblyInfo.cs
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\obj\Debug\net8.0-windows\Lab1_Front.csproj.CoreCompileInputs.cache
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\obj\Debug\net8.0-windows\Lab1_Front.sourcelink.json
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\obj\Debug\net8.0-windows\Lab1_Front.dll
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\obj\Debug\net8.0-windows\refint\Lab1_Front.dll
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\obj\Debug\net8.0-windows\Lab1_Front.pdb
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\bin\Debug\net8.0-windows\Lab1_Front.exe
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\bin\Debug\net8.0-windows\Lab1_Front.deps.json
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\bin\Debug\net8.0-windows\Lab1_Front.runtimeconfig.json
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\bin\Debug\net8.0-windows\Lab1_Front.dll
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\bin\Debug\net8.0-windows\Lab1_Front.pdb
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\bin\Debug\net8.0-windows\PRDLib.dll
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\bin\Debug\net8.0-windows\PRDLib.pdb
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\obj\Debug\net8.0-windows\Lab1_Front.csproj.AssemblyReference.cache
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\obj\Debug\net8.0-windows\Lab1_Front.csproj.Up2Date
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\obj\Debug\net8.0-windows\Lab1_Front.genruntimeconfig.cache
+D:\НГТУ\4 семестр\ТиМП\ВСЯ 1 ЛАБА\Frontend\obj\Debug\net8.0-windows\ref\Lab1_Front.dll
