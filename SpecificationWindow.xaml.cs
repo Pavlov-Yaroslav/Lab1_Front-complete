@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using TMPLAB1;
-using System.Linq;
 
 namespace Lab1_Front
 {
@@ -68,7 +65,7 @@ namespace Lab1_Front
                 int firstRecord = br.ReadInt32();
 
                 int offset = firstRecord;
-                while (offset != -1 && offset < fs.Length)
+                while ((offset != -1) && (offset < fs.Length))
                 {
                     fs.Seek(offset, SeekOrigin.Begin);
 
@@ -102,7 +99,7 @@ namespace Lab1_Front
                 br.ReadInt32(); // FreeSpace
 
                 int offset = firstRecord;
-                while (offset != -1 && offset < fs.Length)
+                while ((offset != -1) && (offset < fs.Length))
                 {
                     fs.Seek(offset, SeekOrigin.Begin);
 
@@ -145,7 +142,7 @@ namespace Lab1_Front
             var rootOffsets = new List<int>();
             foreach (var comp in components)
             {
-                if (!comp.Value.IsDeleted && comp.Value.P_FirstComp != -1 && !childOffsets.Contains(comp.Key))
+                if (!comp.Value.IsDeleted && (comp.Value.P_FirstComp != -1) && !childOffsets.Contains(comp.Key))
                 {
                     rootOffsets.Add(comp.Key);
                 }
@@ -155,14 +152,20 @@ namespace Lab1_Front
             {
                 foreach (var comp in components)
                 {
-                    if (!comp.Value.IsDeleted && comp.Value.P_FirstComp != -1)
+                    if ((!comp.Value.IsDeleted) && (comp.Value.P_FirstComp != -1))
+                    { 
                         rootOffsets.Add(comp.Key);
+                    }
+                        
                 }
             }
 
             if (rootOffsets.Count == 0)
             {
-                SpecTreeView.Items.Add(new TreeViewItem { Header = "Нет спецификаций" });
+                SpecTreeView.Items.Add(new TreeViewItem 
+                { 
+                    Header = "Нет спецификаций" 
+                });
                 return;
             }
 
@@ -177,7 +180,13 @@ namespace Lab1_Front
         private TreeViewItem CreateTreeItem(int offset)
         {
             if (!components.ContainsKey(offset))
-                return new TreeViewItem { Header = "Неизвестный компонент" };
+            { 
+                return new TreeViewItem 
+                { 
+                    Header = "Неизвестный компонент" 
+                };
+            }
+                
 
             var comp = components[offset];
             TreeViewItem item = new TreeViewItem();
@@ -190,8 +199,7 @@ namespace Lab1_Front
 
         private void BuildTreeRecursive(TreeViewItem parentItem, int parentOffset)
         {
-            if (!relations.ContainsKey(parentOffset))
-                return;
+            if (!relations.ContainsKey(parentOffset)) return;
 
             foreach (var rel in relations[parentOffset])
             {
@@ -252,8 +260,10 @@ namespace Lab1_Front
                 try
                 {
                     if (!currentPrsFile.IsOpen)
+                    { 
                         currentPrsFile.Open();
-
+                    }
+                        
                     message = currentPrsFile.Delete($"({product} {detail})");
                     MessageBox.Show(message, "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                     LoadSpecifications();
@@ -279,8 +289,7 @@ namespace Lab1_Front
         {
             try
             {
-                if (!currentPrsFile.IsOpen)
-                    currentPrsFile.Open();
+                if (!currentPrsFile.IsOpen) currentPrsFile.Open();
 
                 currentPrsFile.Truncate();
                 MessageBox.Show("Файл сжат. Удаленные записи окончательно удалены", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -304,8 +313,7 @@ namespace Lab1_Front
             {
                 try
                 {
-                    if (!currentPrsFile.IsOpen)
-                        currentPrsFile.Open();
+                    if (!currentPrsFile.IsOpen) currentPrsFile.Open();
 
                     currentPrsFile.Restore("*");
                     MessageBox.Show("Все записи восстановлены", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -327,8 +335,7 @@ namespace Lab1_Front
 
                 try
                 {
-                    if (!currentPrsFile.IsOpen)
-                        currentPrsFile.Open();
+                    if (!currentPrsFile.IsOpen) currentPrsFile.Open();
 
                     currentPrsFile.Restore($"({input})");
                     MessageBox.Show($"Связь '{input}' восстановлена", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);

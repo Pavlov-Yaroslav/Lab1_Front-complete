@@ -3,8 +3,6 @@ using System.Windows;
 using System.Windows.Media;
 using TMPLAB1;
 using System.IO;
-using System.Linq;
-using System;
 
 namespace Lab1_Front
 {
@@ -70,7 +68,7 @@ namespace Lab1_Front
                     int firstRecord = br.ReadInt32();
 
                     int offset = firstRecord;
-                    while (offset != -1 && offset < fs.Length)
+                    while ((offset != -1) && (offset < fs.Length))
                     {
                         fs.Seek(offset, SeekOrigin.Begin);
 
@@ -92,7 +90,7 @@ namespace Lab1_Front
                         }
 
                         // Если компонент удален и его нет в списке - добавляем
-                        if (flag == 0xFF && !exists)
+                        if ((flag == 0xFF) && !exists)
                         {
                             string type = p_FirstComp == -1 ? "Деталь" : "Узел/Изделие";
                             Components.Add(new Component
@@ -125,7 +123,7 @@ namespace Lab1_Front
             }
 
             // Проверяем корректность типа
-            if (type != "Изделие" && type != "Узел" && type != "Деталь")
+            if ((type != "Изделие") && (type != "Узел") && (type != "Деталь"))
             {
                 MessageBox.Show("Тип должен быть: Изделие, Узел или Деталь",
                               "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -144,7 +142,12 @@ namespace Lab1_Front
                 currentPrdFile.Input(inputArgument);
 
                 // Добавляем в таблицу
-                Components.Add(new Component { Name = name, Type = type, IsDeleted = false });
+                Components.Add(new Component 
+                { 
+                    Name = name, 
+                    Type = type, 
+                    IsDeleted = false 
+                });
 
                 NameTextBox.Text = "";
                 TypeTextBox.Text = "";

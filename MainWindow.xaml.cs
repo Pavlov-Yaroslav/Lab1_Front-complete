@@ -1,5 +1,4 @@
 ﻿using Microsoft.Win32;
-using System;
 using System.IO;
 using System.Windows;
 using TMPLAB1;
@@ -57,7 +56,7 @@ namespace Lab1_Front
 
         private void OpenComponents_Click(object sender, RoutedEventArgs e)
         {
-            if (currentPrdFile == null || !currentPrdFile.IsOpen)
+            if ((currentPrdFile == null) || !currentPrdFile.IsOpen)
             {
                 MessageBox.Show("Сначала откройте файл через меню 'Открыть'",
                               "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -70,8 +69,7 @@ namespace Lab1_Front
 
         private void OpenSpecification_Click(object sender, RoutedEventArgs e)
         {
-            if (currentPrdFile == null || !currentPrdFile.IsOpen ||
-                currentPrsFile == null || !currentPrsFile.IsOpen)
+            if ((currentPrdFile == null) || !currentPrdFile.IsOpen || (currentPrsFile == null) || !currentPrsFile.IsOpen)
             {
                 MessageBox.Show("Сначала откройте файл через меню 'Открыть'",
                               "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
