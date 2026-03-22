@@ -5,16 +5,34 @@ using TMPLAB1;
 
 namespace Lab1_Front
 {
+    /// <summary>
+    /// Главное окно приложения.
+    /// Отвечает за открытие файлов и переход к окнам компонентов и спецификаций.
+    /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Текущий PRD-файл (компоненты).
+        /// </summary>
         private PRD currentPrdFile;
+
+        /// <summary>
+        /// Текущий PRS-файл (спецификации).
+        /// </summary>
         private PRS currentPrsFile;
 
+        /// <summary>
+        /// Инициализация главного окна.
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Обработчик открытия PRD-файла через диалог выбора файла.
+        /// При отсутствии PRS-файла создаёт его автоматически.
+        /// </summary>
         private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -33,6 +51,7 @@ namespace Lab1_Front
 
                     currentPrsFile = new PRS(prsFileName);
 
+                    // Если файл спецификаций существует — открываем, иначе создаём новый
                     if (File.Exists(prsFileName))
                     {
                         currentPrsFile.Open();
@@ -54,6 +73,10 @@ namespace Lab1_Front
             }
         }
 
+        /// <summary>
+        /// Открывает окно компонентов.
+        /// Требует предварительно открытого PRD-файла.
+        /// </summary>
         private void OpenComponents_Click(object sender, RoutedEventArgs e)
         {
             if ((currentPrdFile == null) || !currentPrdFile.IsOpen)
@@ -67,6 +90,10 @@ namespace Lab1_Front
             window.Show();
         }
 
+        /// <summary>
+        /// Открывает окно спецификаций.
+        /// Требует открытых PRD и PRS файлов.
+        /// </summary>
         private void OpenSpecification_Click(object sender, RoutedEventArgs e)
         {
             if ((currentPrdFile == null) || !currentPrdFile.IsOpen || (currentPrsFile == null) || !currentPrsFile.IsOpen)

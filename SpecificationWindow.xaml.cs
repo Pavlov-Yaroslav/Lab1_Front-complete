@@ -5,13 +5,35 @@ using TMPLAB1;
 
 namespace Lab1_Front
 {
+    /// <summary>
+    /// Окно для отображения и управления спецификациями (связями между компонентами).
+    /// Формирует древовидную структуру на основе данных PRD и PRS файлов.
+    /// </summary>
     public partial class SpecificationWindow : Window
     {
+        /// <summary>
+        /// Текущий PRD-файл (компоненты).
+        /// </summary>
         private PRD currentPrdFile;
+
+        /// <summary>
+        /// Текущий PRS-файл (связи).
+        /// </summary>
         private PRS currentPrsFile;
+
+        /// <summary>
+        /// Словарь компонентов (offset -> информация о компоненте).
+        /// </summary>
         private Dictionary<int, ComponentInfo> components = new Dictionary<int, ComponentInfo>();
+
+        /// <summary>
+        /// Словарь связей (offset продукта -> список связей).
+        /// </summary>
         private Dictionary<int, List<RelationInfo>> relations = new Dictionary<int, List<RelationInfo>>();
 
+        /// <summary>
+        /// Внутреннее представление компонента.
+        /// </summary>
         private class ComponentInfo
         {
             public string Name { get; set; }
@@ -19,6 +41,9 @@ namespace Lab1_Front
             public int P_FirstComp { get; set; }
         }
 
+        /// <summary>
+        /// Внутреннее представление связи между компонентами.
+        /// </summary>
         private class RelationInfo
         {
             public int ProductOffset { get; set; }
@@ -27,6 +52,9 @@ namespace Lab1_Front
             public bool IsDeleted { get; set; }
         }
 
+        /// <summary>
+        /// Инициализация окна спецификаций.
+        /// </summary>
         public SpecificationWindow(PRD prdFile, PRS prsFile)
         {
             InitializeComponent();
@@ -35,6 +63,9 @@ namespace Lab1_Front
             LoadSpecifications();
         }
 
+        /// <summary>
+        /// Загружает компоненты и связи, затем строит дерево спецификации.
+        /// </summary>
         private void LoadSpecifications()
         {
             try
@@ -55,11 +86,15 @@ namespace Lab1_Front
             }
         }
 
+        /// <summary>
+        /// Загружает компоненты из PRD-файла через обход бинарной структуры.
+        /// </summary>
         private void LoadComponents()
         {
             using (FileStream fs = new FileStream(currentPrdFile.CurrentFileName, FileMode.Open, FileAccess.Read))
             using (BinaryReader br = new BinaryReader(fs))
             {
+                // Чтение параметров записи и обход связанного списка через p_Next
                 fs.Seek(2, SeekOrigin.Begin);
                 ushort recordLen = br.ReadUInt16();
                 int firstRecord = br.ReadInt32();
@@ -87,6 +122,9 @@ namespace Lab1_Front
             }
         }
 
+        /// <summary>
+        /// Загружает связи между компонентами из PRS-файла.
+        /// </summary>
         private void LoadRelations()
         {
             if (!File.Exists(currentPrsFile.CurrentFileName))
@@ -96,7 +134,7 @@ namespace Lab1_Front
             using (BinaryReader br = new BinaryReader(fs))
             {
                 int firstRecord = br.ReadInt32();
-                br.ReadInt32(); // FreeSpace
+                br.ReadInt32(); // пропуск области свободного пространства
 
                 int offset = firstRecord;
                 while ((offset != -1) && (offset < fs.Length))
@@ -109,6 +147,7 @@ namespace Lab1_Front
                     ushort multiOccurrence = br.ReadUInt16();
                     int p_Next = br.ReadInt32();
 
+                    // Добавляем только активные (не удалённые) связи
                     if (flag != 0xFF)
                     {
                         if (!relations.ContainsKey(p_Product))
@@ -128,9 +167,14 @@ namespace Lab1_Front
             }
         }
 
+        /// <summary>
+        /// Формирует дерево спецификации на основе компонентов и связей.
+        /// </summary>
         private void BuildTree()
         {
             HashSet<int> childOffsets = new HashSet<int>();
+
+            // Определение всех дочерних элементов
             foreach (var relList in relations.Values)
             {
                 foreach (var rel in relList)
@@ -140,6 +184,8 @@ namespace Lab1_Front
             }
 
             var rootOffsets = new List<int>();
+
+            // Поиск корневых элементов (не являются дочерними)
             foreach (var comp in components)
             {
                 if (!comp.Value.IsDeleted && (comp.Value.P_FirstComp != -1) && !childOffsets.Contains(comp.Key))
@@ -148,23 +194,23 @@ namespace Lab1_Front
                 }
             }
 
+            // Резервный вариант: если явных корней нет
             if (rootOffsets.Count == 0)
             {
                 foreach (var comp in components)
                 {
                     if ((!comp.Value.IsDeleted) && (comp.Value.P_FirstComp != -1))
-                    { 
+                    {
                         rootOffsets.Add(comp.Key);
                     }
-                        
                 }
             }
 
             if (rootOffsets.Count == 0)
             {
-                SpecTreeView.Items.Add(new TreeViewItem 
-                { 
-                    Header = "Нет спецификаций" 
+                SpecTreeView.Items.Add(new TreeViewItem
+                {
+                    Header = "Нет спецификаций"
                 });
                 return;
             }
@@ -177,16 +223,18 @@ namespace Lab1_Front
             }
         }
 
+        /// <summary>
+        /// Создаёт элемент дерева для компонента.
+        /// </summary>
         private TreeViewItem CreateTreeItem(int offset)
         {
             if (!components.ContainsKey(offset))
-            { 
-                return new TreeViewItem 
-                { 
-                    Header = "Неизвестный компонент" 
+            {
+                return new TreeViewItem
+                {
+                    Header = "Неизвестный компонент"
                 };
             }
-                
 
             var comp = components[offset];
             TreeViewItem item = new TreeViewItem();
@@ -197,6 +245,9 @@ namespace Lab1_Front
             return item;
         }
 
+        /// <summary>
+        /// Рекурсивно строит дерево связей компонентов.
+        /// </summary>
         private void BuildTreeRecursive(TreeViewItem parentItem, int parentOffset)
         {
             if (!relations.ContainsKey(parentOffset)) return;
@@ -207,6 +258,7 @@ namespace Lab1_Front
                 {
                     TreeViewItem childItem = CreateTreeItem(rel.DetailOffset);
 
+                    // Отображение кратности связи
                     if (rel.MultiOccurrence > 1)
                     {
                         childItem.Header = $"{components[rel.DetailOffset].Name} (x{rel.MultiOccurrence})";
@@ -218,6 +270,9 @@ namespace Lab1_Front
             }
         }
 
+        /// <summary>
+        /// Добавление новой связи между компонентами.
+        /// </summary>
         private void MenuItem_Add_Click(object sender, RoutedEventArgs e)
         {
             string input = Microsoft.VisualBasic.Interaction.InputBox(
@@ -243,6 +298,9 @@ namespace Lab1_Front
             }
         }
 
+        /// <summary>
+        /// Удаление выбранной связи.
+        /// </summary>
         private void MenuItem_Delete_Click(object sender, RoutedEventArgs e)
         {
             if (SpecTreeView.SelectedItem is not TreeViewItem selectedItem)
@@ -260,10 +318,10 @@ namespace Lab1_Front
                 try
                 {
                     if (!currentPrsFile.IsOpen)
-                    { 
+                    {
                         currentPrsFile.Open();
                     }
-                        
+
                     message = currentPrsFile.Delete($"({product} {detail})");
                     MessageBox.Show(message, "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                     LoadSpecifications();
@@ -279,12 +337,18 @@ namespace Lab1_Front
             }
         }
 
+        /// <summary>
+        /// Заглушка для редактирования связи.
+        /// </summary>
         private void MenuItem_Edit_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Функция изменения будет реализована позже",
                           "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+        /// <summary>
+        /// Окончательное удаление помеченных записей (сжатие файла).
+        /// </summary>
         private void BtnTruncate_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -301,6 +365,9 @@ namespace Lab1_Front
             }
         }
 
+        /// <summary>
+        /// Восстановление удалённых записей (всех или выбранной).
+        /// </summary>
         private void BtnRestore_Click(object sender, RoutedEventArgs e)
         {
             var result = MessageBox.Show(

@@ -6,11 +6,26 @@ using System.IO;
 
 namespace Lab1_Front
 {
+    /// <summary>
+    /// Окно для работы с компонентами PRD-файла:
+    /// загрузка, добавление, удаление, восстановление и очистка.
+    /// </summary>
     public partial class ComponentsWindow : Window
     {
+        /// <summary>
+        /// Коллекция компонентов для отображения в интерфейсе.
+        /// </summary>
         public ObservableCollection<Component> Components { get; set; } = new ObservableCollection<Component>();
+
+        /// <summary>
+        /// Текущий PRD-файл.
+        /// </summary>
         private PRD currentPrdFile;
 
+        /// <summary>
+        /// Конструктор окна.
+        /// </summary>
+        /// <param name="prdFile">PRD-файл для работы</param>
         public ComponentsWindow(PRD prdFile)
         {
             InitializeComponent();
@@ -20,13 +35,15 @@ namespace Lab1_Front
             LoadComponentsFromFile();
         }
 
+        /// <summary>
+        /// Загружает все компоненты из файла, включая удалённые.
+        /// </summary>
         private void LoadComponentsFromFile()
         {
             try
             {
                 Components.Clear();
 
-                // Используем новый метод GetAllComponents() из PRD
                 var allComponents = currentPrdFile.GetAllComponents();
 
                 foreach (var comp in allComponents)
@@ -39,7 +56,7 @@ namespace Lab1_Front
                     });
                 }
 
-                // Дополнительно загружаем удаленные компоненты
+                // Загрузка удалённых записей напрямую из файла
                 LoadDeletedComponents();
 
                 if (Components.Count == 0)
@@ -55,6 +72,9 @@ namespace Lab1_Front
             }
         }
 
+        /// <summary>
+        /// Загружает удалённые компоненты через обход бинарной структуры файла.
+        /// </summary>
         private void LoadDeletedComponents()
         {
             try
@@ -62,7 +82,7 @@ namespace Lab1_Front
                 using (FileStream fs = new FileStream(currentPrdFile.CurrentFileName, FileMode.Open, FileAccess.Read))
                 using (BinaryReader br = new BinaryReader(fs))
                 {
-                    // Читаем заголовок PRD
+                    // Чтение параметров записи из заголовка файла
                     fs.Seek(2, SeekOrigin.Begin);
                     ushort recordLen = br.ReadUInt16();
                     int firstRecord = br.ReadInt32();
@@ -78,7 +98,7 @@ namespace Lab1_Front
                         byte[] nameBytes = br.ReadBytes(recordLen);
                         string name = System.Text.Encoding.UTF8.GetString(nameBytes).TrimEnd('\0');
 
-                        // Проверяем, есть ли уже этот компонент в списке
+                        // Проверка наличия компонента в списке
                         bool exists = false;
                         foreach (var comp in Components)
                         {
@@ -89,7 +109,7 @@ namespace Lab1_Front
                             }
                         }
 
-                        // Если компонент удален и его нет в списке - добавляем
+                        // Добавление только удалённых компонентов
                         if ((flag == 0xFF) && !exists)
                         {
                             string type = p_FirstComp == -1 ? "Деталь" : "Узел/Изделие";
@@ -111,6 +131,9 @@ namespace Lab1_Front
             }
         }
 
+        /// <summary>
+        /// Обработчик добавления компонента.
+        /// </summary>
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             string name = NameTextBox.Text.Trim();
@@ -122,7 +145,7 @@ namespace Lab1_Front
                 return;
             }
 
-            // Проверяем корректность типа
+            // Проверка допустимых типов
             if ((type != "Изделие") && (type != "Узел") && (type != "Деталь"))
             {
                 MessageBox.Show("Тип должен быть: Изделие, Узел или Деталь",
@@ -137,16 +160,15 @@ namespace Lab1_Front
                     currentPrdFile.Open();
                 }
 
-                // Формируем аргумент для метода Input
+                // Формирование аргумента для PRD.Input
                 string inputArgument = $"({name}, {type})";
                 currentPrdFile.Input(inputArgument);
 
-                // Добавляем в таблицу
-                Components.Add(new Component 
-                { 
-                    Name = name, 
-                    Type = type, 
-                    IsDeleted = false 
+                Components.Add(new Component
+                {
+                    Name = name,
+                    Type = type,
+                    IsDeleted = false
                 });
 
                 NameTextBox.Text = "";
@@ -162,6 +184,9 @@ namespace Lab1_Front
             }
         }
 
+        /// <summary>
+        /// Обработчик логического удаления компонента.
+        /// </summary>
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (ComponentsGrid.SelectedItem == null)
@@ -208,6 +233,9 @@ namespace Lab1_Front
             }
         }
 
+        /// <summary>
+        /// Обработчик восстановления компонента.
+        /// </summary>
         private void RestoreButton_Click(object sender, RoutedEventArgs e)
         {
             if (ComponentsGrid.SelectedItem == null)
@@ -247,6 +275,9 @@ namespace Lab1_Front
             }
         }
 
+        /// <summary>
+        /// Обработчик окончательного удаления (сжатия файла).
+        /// </summary>
         private void TruncateButton_Click(object sender, RoutedEventArgs e)
         {
             int deletedCount = Components.Count(c => c.IsDeleted);
@@ -285,6 +316,9 @@ namespace Lab1_Front
             }
         }
 
+        /// <summary>
+        /// Обработчик восстановления всех компонентов.
+        /// </summary>
         private void RestoreAllButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -313,11 +347,29 @@ namespace Lab1_Front
         }
     }
 
+    /// <summary>
+    /// Модель компонента.
+    /// </summary>
     public class Component
     {
+        /// <summary>
+        /// Имя компонента.
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Тип компонента.
+        /// </summary>
         public string Type { get; set; }
+
+        /// <summary>
+        /// Признак удаления.
+        /// </summary>
         public bool IsDeleted { get; set; } = false;
+
+        /// <summary>
+        /// Цвет отображения (серый для удалённых).
+        /// </summary>
         public SolidColorBrush TextColor => IsDeleted ? new SolidColorBrush(Colors.Gray) : new SolidColorBrush(Colors.Black);
     }
 }
