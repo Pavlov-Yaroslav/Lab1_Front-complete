@@ -53,6 +53,16 @@ namespace Lab1_Front
         }
 
         /// <summary>
+        /// Вспомогательная модель для элемента дерева.
+        /// Хранит имя компонента и признак удаления.
+        /// </summary>
+        private class TreeItemViewModel
+        {
+            public string Name { get; set; }
+            public bool IsDeleted { get; set; }
+        }
+
+        /// <summary>
         /// Инициализация окна спецификаций.
         /// </summary>
         public SpecificationWindow(PRD prdFile, PRS prsFile)
@@ -125,7 +135,7 @@ namespace Lab1_Front
         /// <summary>
         /// Загружает связи между компонентами из PRS-файла.
         /// </summary>
-        private void LoadRelations()
+        private void LoadRelations(bool includeDeleted = false)
         {
             if (!File.Exists(currentPrsFile.CurrentFileName))
                 return;
@@ -134,7 +144,7 @@ namespace Lab1_Front
             using (BinaryReader br = new BinaryReader(fs))
             {
                 int firstRecord = br.ReadInt32();
-                br.ReadInt32(); // пропуск области свободного пространства
+                br.ReadInt32();
 
                 int offset = firstRecord;
                 while ((offset != -1) && (offset < fs.Length))
@@ -147,8 +157,10 @@ namespace Lab1_Front
                     ushort multiOccurrence = br.ReadUInt16();
                     int p_Next = br.ReadInt32();
 
-                    // Добавляем только активные (не удалённые) связи
-                    if (flag != 0xFF)
+                    bool isDeleted = flag == 0xFF;
+
+                    // Добавляем запись только если она активна, или если явно запрошены удалённые
+                    if (!isDeleted || includeDeleted)
                     {
                         if (!relations.ContainsKey(p_Product))
                             relations[p_Product] = new List<RelationInfo>();
@@ -158,7 +170,7 @@ namespace Lab1_Front
                             ProductOffset = p_Product,
                             DetailOffset = p_Detail,
                             MultiOccurrence = multiOccurrence,
-                            IsDeleted = false
+                            IsDeleted = isDeleted
                         });
                     }
 
@@ -224,23 +236,52 @@ namespace Lab1_Front
         }
 
         /// <summary>
+        /// Открывает или скрывает помеченные на удаление элементы в дереве.
+        /// Переключает текст кнопки между "Показать удаленные" и "Скрыть удаленные".
+        /// </summary>
+        public void BtnShowDeleted_Click(object sender, RoutedEventArgs e)
+        {
+
+            SpecTreeView.Items.Clear();
+            relations.Clear();
+            if (BtnShowDeleted.Content == "Скрыть удаленные")
+            {
+                BtnShowDeleted.Content = "Показать удаленные";
+                LoadRelations();
+            }
+            else
+            { 
+                BtnShowDeleted.Content = "Скрыть удаленные";
+                LoadRelations(includeDeleted: true);
+            }
+                
+            
+            BuildTree();
+
+        }
+
+        /// <summary>
         /// Создаёт элемент дерева для компонента.
         /// </summary>
-        private TreeViewItem CreateTreeItem(int offset)
+        private TreeViewItem CreateTreeItem(int offset, bool isDeleted = false)
         {
             if (!components.ContainsKey(offset))
-            {
-                return new TreeViewItem
-                {
-                    Header = "Неизвестный компонент"
-                };
-            }
+                return new TreeViewItem { Header = "Неизвестный компонент" };
 
             var comp = components[offset];
-            TreeViewItem item = new TreeViewItem();
-            item.Header = comp.Name;
+            var vm = new TreeItemViewModel { Name = comp.Name, IsDeleted = isDeleted };
+
+            var item = new TreeViewItem();
+            item.DataContext = vm;
+            item.Header = vm.Name;
             item.Tag = offset;
             item.ContextMenu = (ContextMenu)FindResource("TreeContextMenu");
+
+            if (isDeleted)
+            {
+                item.Foreground = System.Windows.Media.Brushes.Gray;
+                item.FontStyle = FontStyles.Italic;
+            }
 
             return item;
         }
@@ -254,19 +295,19 @@ namespace Lab1_Front
 
             foreach (var rel in relations[parentOffset])
             {
-                if (components.ContainsKey(rel.DetailOffset) && !components[rel.DetailOffset].IsDeleted)
-                {
-                    TreeViewItem childItem = CreateTreeItem(rel.DetailOffset);
+                if (!components.ContainsKey(rel.DetailOffset)) continue;
 
-                    // Отображение кратности связи
-                    if (rel.MultiOccurrence > 1)
-                    {
-                        childItem.Header = $"{components[rel.DetailOffset].Name} (x{rel.MultiOccurrence})";
-                    }
+                if (!rel.IsDeleted && components[rel.DetailOffset].IsDeleted) continue;
 
-                    BuildTreeRecursive(childItem, rel.DetailOffset);
-                    parentItem.Items.Add(childItem);
+                TreeViewItem childItem = CreateTreeItem(rel.DetailOffset, rel.IsDeleted || components[rel.DetailOffset].IsDeleted);
+
+                if (rel.MultiOccurrence > 1)
+                { 
+                    childItem.Header = $"{components[rel.DetailOffset].Name} (x{rel.MultiOccurrence})";
                 }
+                    
+                BuildTreeRecursive(childItem, rel.DetailOffset);
+                parentItem.Items.Add(childItem);
             }
         }
 
@@ -324,7 +365,21 @@ namespace Lab1_Front
 
                     message = currentPrsFile.Delete($"({product} {detail})");
                     MessageBox.Show(message, "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
-                    LoadSpecifications();
+
+                    SpecTreeView.Items.Clear();
+                    relations.Clear();
+                    if (BtnShowDeleted.Content == "Скрыть удаленные")
+                    {
+                        LoadRelations(includeDeleted: true);
+                    }
+                    else
+                    {
+                        LoadRelations();
+                    }
+
+                    BuildTree();
+
+
                 }
                 catch (Exception ex)
                 {
@@ -366,24 +421,42 @@ namespace Lab1_Front
         }
 
         /// <summary>
-        /// Восстановление удалённых записей (всех или выбранной).
+        /// Обновляет видимость пунктов контекстного меню в зависимости от того,
+        /// помечен ли выбранный элемент на удаление.
         /// </summary>
-        private void BtnRestore_Click(object sender, RoutedEventArgs e)
+        private void TreeContextMenu_Opening(object sender, RoutedEventArgs e)
         {
-            var result = MessageBox.Show(
-                "Восстановить ВСЕ помеченные записи?\nДа — все, Нет — конкретную связь",
-                "Восстановление",
-                MessageBoxButton.YesNoCancel,
-                MessageBoxImage.Question);
+            if (SpecTreeView.SelectedItem is not TreeViewItem selectedItem) return;
 
-            if (result == MessageBoxResult.Yes)
+            var menu = (ContextMenu)FindResource("TreeContextMenu");
+            var menuDelete = (MenuItem)menu.Items[2];
+            var menuRestore = (MenuItem)menu.Items[3];
+
+            bool isDeleted = selectedItem.FontStyle == FontStyles.Italic;
+
+            menuDelete.Visibility = isDeleted ? Visibility.Collapsed : Visibility.Visible;
+            menuRestore.Visibility = isDeleted ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        /// <summary>
+        /// Восстанавливает выбранную связь между компонентами,
+        /// определяя продукт и деталь по родительскому и выбранному элементу дерева.
+        /// </summary>
+        private void MenuItem_Restore_Click(object sender, RoutedEventArgs e)
+        {
+            if (SpecTreeView.SelectedItem is not TreeViewItem selectedItem) return;
+
+            if (selectedItem.Parent is TreeViewItem parentItem)
             {
+                string product = parentItem.Header.ToString().Split(' ')[0];
+                string detail = selectedItem.Header.ToString().Split(' ')[0];
+
                 try
                 {
                     if (!currentPrsFile.IsOpen) currentPrsFile.Open();
 
-                    currentPrsFile.Restore("*");
-                    MessageBox.Show("Все записи восстановлены", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                    currentPrsFile.Restore($"({product} {detail})");
+                    MessageBox.Show($"Связь восстановлена", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                     LoadSpecifications();
                 }
                 catch (Exception ex)
@@ -391,21 +464,26 @@ namespace Lab1_Front
                     MessageBox.Show($"Ошибка восстановления: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-            else if (result == MessageBoxResult.No)
+        }
+
+        /// <summary>
+        /// Восстановление удалённых записей (всех).
+        /// </summary>
+        private void BtnRestore_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show(
+                "Восстановить ВСЕ помеченные записи?",
+                "Восстановление",
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
             {
-                string input = Microsoft.VisualBasic.Interaction.InputBox(
-                    "Введите связь для восстановления в формате: ОсновнойКомпонент Деталь",
-                    "Восстановить конкретную запись",
-                    "");
-
-                if (string.IsNullOrWhiteSpace(input)) return;
-
                 try
                 {
                     if (!currentPrsFile.IsOpen) currentPrsFile.Open();
-
-                    currentPrsFile.Restore($"({input})");
-                    MessageBox.Show($"Связь '{input}' восстановлена", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                    currentPrsFile.Restore("*");
+                    MessageBox.Show("Все записи восстановлены", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                     LoadSpecifications();
                 }
                 catch (Exception ex)
